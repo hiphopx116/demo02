@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>特价产品列表</title>
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/lists.css">
+</head>
+<body>
+	<div class="box">
+		<ul class="list">
+			<!-- 这里的每一个商品都是动态生成的 -->
+		</ul>
+	</div>
+	<!-- 这里写js代码 -->
+	<!-- 用jQuery提供的Ajax方法实现前后端数据的交互 -->
+	<!-- 首先引入jQuery文件 -->
+	<script src="js/jquery-1.12.2.js"></script>
+	<script>
+	// 获取元素
+	var list=document.querySelector(".list");
+	$.get("http://www.cwsc.com/cwsc/php/chaxunall.php",function(data){
+		console.log(data.data);
+		// 定义变量保存数组
+		var arr=data.data;
+		// 定义变量保存HTML结构
+		var str="";
+		// 循环				
+		for(var i=0;i<arr.length;i++){
+			// 创建一个li元素
+			var li=document.createElement("li");
+			// 创建元素，显示数据
+			// li.innerHTML= '<span>' +arr[i].gsid + '</span><img src="'+arr[i].gspic+'">';
+			str='<a href="detailpages.html?id='+arr[i].id+'">';
+					str+='<img src="'+arr[i].pic+'" alt="">';
+					str+='<p>'+arr[i].dec+'</p>';
+					str+='<div>';
+						str+='¥<span>'+arr[i].price+'</span>';
+						str+='¥<span>'+arr[i].oldprice+'</span>';
+					str+='</div>';
+			str+='</a>';
+			li.innerHTML=str;
+			list.appendChild(li);
+		}		
+		// list.innerHTML=str;
+	},"json");
+</script>
+</body>
+</html>
